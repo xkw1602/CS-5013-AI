@@ -33,8 +33,20 @@ fig1_mat = [[0, 4, -1, -1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, 10, -1, -1, -1, -1, 10, -1, -1, -1, 0, -1],
             [-1, -1, 3, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0]]
 
+node_map = {'A':1, 'B':2, 'C':3, 'D':4, 'E':5, 'F':6, 'G':7, 'H':8, 'I':9, 'J':10, 'K':11, 'L':12, 'M':13, 'N':14, 'P':15, 'Q':16, 'S':17}
+
+h_list = {'A':10, 'B':9, 'C':16, 'D':21, 'E':13, 'F':9, 'G':0, 'H':12, 'I':9, 'J':5, 'K':8, 'L':18, 'M':3, 'N':4, 'P':6, 'Q':9, 'S':17}
+
 def BFS(start: str) -> list:
-    # START: Your code here
+    queue = []
+    visited = []
+    queue.append(str)
+    while(True):
+        current_node = queue.pop(0)
+        visited.append(current_node)
+        for edge in fig1_mat[node_map.get(current_node)]:
+            if edge > 0:
+
     return []
     # END: Your code here
 

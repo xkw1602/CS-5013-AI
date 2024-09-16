@@ -15,54 +15,116 @@
 # Examples:
 #     The test cases below call each search function on node 'S' and node 'A'
 # -----------------------------
-fig1_mat = [[0, 4, -1, -1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-            [4, 0, 2, -1, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, 2, 0, -1,-1, -1, -1, 4, -1, -1, -1, -1, -1, -1, -1, -1, 3],
-            [-1, -1, -1, 0, -1, -1, -1, -1, -1, -1, -1, 8, -1, -1, -1, -1, 2],
-            [1, -1, -1, -1, 0, 3, -1, -1, 6, -1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, 2, -1, -1, 3, 0, -1, -1, -1, 6, 4, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, 4, 4, -1, 10, -1],
-            [-1, -1, 4, -1, -1, -1, -1, 0, -1, -1, 3, 7, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, 6, -1, -1, -1, 0, 1, -1, -1, 5, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, 6, -1, -1, 1, 0, 3, -1, -1, 3, -1, -1, -1],
-            [-1, -1, -1, -1, -1, 4, -1, 3, -1, 3, 0, 9, -1, -1, 3, -1, -1],
-            [-1, -1, -1, 8, -1, -1, -1, 7, -1, -1, 9, 0, -1, -1, -1, 10, -1],
-            [-1, -1, -1, -1, -1, -1, 4, -1, 5, -1, -1, -1, 0, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, -1, 4, -1, -1, 3, -1, -1, -1, 0, 2, -1, -1],
-            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, 2, 0, -1, -1],
-            [-1, -1, -1, -1, -1, -1, 10, -1, -1, -1, -1, 10, -1, -1, -1, 0, -1],
-            [-1, -1, 3, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0]]
+from queue import Queue, LifoQueue
 
-node_map = {'A':1, 'B':2, 'C':3, 'D':4, 'E':5, 'F':6, 'G':7, 'H':8, 'I':9, 'J':10, 'K':11, 'L':12, 'M':13, 'N':14, 'P':15, 'Q':16, 'S':17}
+fig1 = {
+    'A' : [('B', 4), ('E', 1)],
+    'B' : [('A', 4), ('C', 2), ('F', 2)],
+    'C' : [('B', 4), ('H', 4), ('S', 3)],
+    'D' : [('S', 2), ('L', 8)],
+    'E' : [('A', 1), ('F', 3), ('I', 6)],
+    'F' : [('B', 2), ('E', 3), ('J', 6), ('K', 4)],
+    'G' : [('M', 4), ('N', 4), ('Q', 10)],
+    'H' : [('C', 4), ('K', 3), ('L', 7)],
+    'I' : [('E', 6), ('J', 1), ('M', 5)],
+    'J' : [('F', 6), ('I', 1), ('K', 3), ('N', 3)],
+    'K' : [('F', 4), ('H', 3), ('J', 3), ('L', 9), ('P', 3)],
+    'L' : [('D', 8), ('H', 7), ('K', 9), ('Q', 10)],
+    'M' : [('G', 4), ('I', 5)],
+    'N' : [('G', 4), ('J', 3), ('P', 2)],
+    'P' : [('K', 3), ('N', 2)],
+    'Q' : [('G', 10), ('L', 10)],
+    'S' : [('C', 3), ('D', 2)]
+}
 
 h_list = {'A':10, 'B':9, 'C':16, 'D':21, 'E':13, 'F':9, 'G':0, 'H':12, 'I':9, 'J':5, 'K':8, 'L':18, 'M':3, 'N':4, 'P':6, 'Q':9, 'S':17}
 
 def BFS(start: str) -> list:
-    queue = []
-    visited = []
-    queue.append(str)
-    while(True):
-        current_node = queue.pop(0)
-        visited.append(current_node)
-        for edge in fig1_mat[node_map.get(current_node)]:
-            if edge > 0:
 
-    return []
-    # END: Your code here
+    # Initialize queue, list, set. Set ensures each node is only accessed once
+    q = Queue()
+    expanded = []
+    visited = set()
 
+    # Add start node to queue and visited
+    q.put(start)
+    visited.add(start)
+
+
+    while not q.empty():
+
+        # Add current node to expansion list
+        current_node = q.get()
+        expanded.append(current_node)
+
+        # Explore all edges of current node
+        for node, weight in fig1.get(current_node):
+
+            # If node has not been visited, add to queue
+            if node not in visited:
+                q.put(node)
+                visited.add(node)
+
+                # If current node has a path to G, exit loop
+                if node == 'G':
+                    expanded.append(node)
+                    return expanded
+
+    return expanded
 
 def DFS(start: str) -> list:
-    # START: Your code here
-    return []
-    # END: Your code here
 
+    # Initialize stack & list. set is not necessary for DFS
+    s = LifoQueue()
+    expanded = []
+
+    # Add start node to stack 
+    s.put(start)
+
+    while not s.empty():
+        # Pop node off stack
+        current_node = s.get()
+        expanded.append(current_node)
+
+        # Same implementation as BFS, adding new nodes to the stack in reverse order, to pop them in alphabetical order
+        for node, weight in reversed(fig1.get(current_node)):
+            if node not in expanded:
+                s.put(node)
+                if node == 'G':
+                    expanded.append(node)
+                    return expanded
+
+    return expanded
 
 def GBFS(start: str) -> list:
-    # START: Your code here
-    return []
-    # END: Your code here
 
+    # initialize fringe and structures
+    expanded = []
+    fringe = set()
+    visited = set()
 
+    # Add start node to fringe and set to current node
+    fringe.add(start)
+    visited.add(start)
+    current_node = start
+
+    while fringe:
+        # Add current node to list, mark as visited and remove from fringe
+        expanded.append(current_node)
+        fringe.remove(current_node)
+
+        for node, weight in fig1.get(current_node):
+            if(node not in visited):
+                fringe.add(node)
+                visited.add(node)
+            if node == 'G':
+                expanded.append(node)
+                return expanded
+            
+        # set current node to the lowest h-value in the fringe and loop
+        current_node = min(fringe, key=lambda node: h_list.get(node))
+        
+    return expanded
 
 # test cases - DO NOT MODIFY THESE
 def run_tests():

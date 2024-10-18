@@ -1,5 +1,6 @@
 import pandas as pd
 import random
+import matplotlib.pyplot as plt
 # Read data set and handle missing values
 df = pd.read_csv('CreditCard.csv')
 df = df.dropna(subset=['CreditApprove', 'Gender', 'CarOwner', 'PropertyOwner', '#Children', 'WorkPhone', 'Email_ID'])
@@ -56,6 +57,7 @@ print(f'Initial error: {current_error}')
 iteration = 0
 
 # Hill climbing loop
+best_errors_per_generation = []
 while True:
     iteration += 1
     neighbors = generate_neighbors(w)
@@ -70,6 +72,8 @@ while True:
             best_neighbor = neighbor
             best_error = neighbor_error
 
+    best_errors_per_generation.append(best_error)
+
     # No neighbors of current w produce a lower error, break loop
     if(best_error >= current_error):
         print('Done.')
@@ -78,3 +82,12 @@ while True:
     w = best_neighbor
     current_error = best_error
     print(f'Iteration {iteration}: \n w = {w} \n error = {current_error}')
+
+
+
+plt.plot(range(len(best_errors_per_generation)), best_errors_per_generation, marker='o')
+plt.title('Generation vs Best Error')
+plt.xlabel('Generation')
+plt.ylabel('Best Error')
+plt.grid(True)
+plt.show()

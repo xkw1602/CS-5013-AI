@@ -38,7 +38,7 @@ label_train = data[0:num_train,-1]
 # Pick 8 candidate values for alpha (in ascending order)
 # Remember we should aim to observe both overfitting and underfitting from these values 
 # Suggestion: the first value should be very small and the last should be large 
-alpha_vec = [0.05, 0.1, 0.3, 0.5, 0.75, 1.0, 5.0, 20.0]
+alpha_vec = [0.001, 0.01, 0.1, 0.5, 1.0, 5.0, 10.0, 40.0]
 # --- end of task --- #
 
 er_train_alpha = []

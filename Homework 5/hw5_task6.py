@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 
 # --- Your Task --- #
 # import libraries as needed 
-# .......
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
 # --- end of task --- #
 
 # -------------------------------------
@@ -25,19 +26,22 @@ label_test = data[n-num_test:,-1]
 
 # --- Your Task --- #
 # pick five values of m by yourself 
-m_values = [1, 3, 5, 7, 9]
+m_values = [1, 10, 100, 1000, 10000]
 # --- end of task --- #
 
 er_test = []
 for m in m_values: 
-    # --- Your Task --- #
-    # implement the random forest classification method 
-    # you can directly call "RandomForestClassifier" from the scikit learn library
-    # ......
-    # ......
-    # ......
-    # store classification error on testing data here 
-    er = ......
+    rf_classifier = RandomForestClassifier(n_estimators=m, random_state=0)
+    
+    # Train the classifier on the training data
+    rf_classifier.fit(sample_train, label_train)
+    
+    # Predict on the test data
+    predictions = rf_classifier.predict(sample_test)
+    
+    # Calculate classification error for the current m
+    accuracy = accuracy_score(label_test, predictions)
+    er = 1 - accuracy
     er_test.append(er)
 # --- end of task --- #
     
@@ -45,6 +49,6 @@ plt.figure()
 plt.plot(er_test)
 plt.xlabel('m')
 plt.ylabel('Classification Error')
-
+plt.show()
 
 
